@@ -41,7 +41,7 @@ class Handler(FileSystemEventHandler):
                         try:
                             log(f'Extracting {rar_file}\n')
                             rar.extractall(path=curr_dir)
-                        except rarfile.RarCRCError as e:
+                        except rarfile.Error as e:
                             log(f'An error has occured with the extraction - {e}')
                             return None
                         rar_list = rar.namelist()
