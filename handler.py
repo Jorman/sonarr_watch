@@ -20,10 +20,8 @@ class Handler(FileSystemEventHandler):
                 #print(f'Received {event.event_type} event - {curr_dir}')
                 
                 for file in os.listdir(curr_dir):
-                    print(file)
                     if file.endswith('.rar'):
                         rar_file = file
-                        print(rar_file)
                     if file.startswith('.syncthing'):
                         print('Sync file located.\n')
                         sync_file = True
@@ -39,6 +37,7 @@ class Handler(FileSystemEventHandler):
                         except:
                             return None
                         rar_list = rar.namelist()
+                        print(f'Cleaning up {curr_dir}\n')
                         for f in os.listdir(curr_dir):
                             if f not in rar_list:
                                 os.remove(f'{curr_dir}/{f}')
