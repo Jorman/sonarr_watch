@@ -9,22 +9,22 @@ def log(msg):
         sys.stdout.flush()
 
 class Handler(FileSystemEventHandler):
+    def __init__(self):
+        super().__init__()
+        self.tracker = []
     
 
-    @staticmethod
-    def on_any_event(event):
+    #@staticmethod
+    def on_any_event(self, event):
         sync_file = False
         rar_file = None
 
         if event.event_type == 'deleted':
-            #print('D')
             return None
         elif event.is_directory is True:
-            #print(f"\n\n!!!!!! - {event.event_type} - !!!!!!\n\n")
             if event.event_type == 'created' or event.event_type == 'modified':
                 curr_dir = event.src_path
-                #print(f'Received {event.event_type} event - {curr_dir}')
-                
+
                 for file in os.listdir(curr_dir):
                     if file.endswith('.rar'):
                         rar_file = file
@@ -34,8 +34,9 @@ class Handler(FileSystemEventHandler):
                         rar_file = None
                         break
 
-                if sync_file == False:
-                    if rar_file is not None:
+                if sync_file == False and rar_file is not None:
+                    if curr_dir not in self.tracker:
+                        self.tracker.append(curr_dir)
                         rar = rarfile.RarFile(f'/{curr_dir}/{rar_file}')
                         try:
                             log(f'Extracting {rar_file}\n')
@@ -49,10 +50,4 @@ class Handler(FileSystemEventHandler):
                             if f not in rar_list:
                                 os.remove(f'{curr_dir}/{f}')
                         rar_file = None
-                        #print('!!\n\n')
-                    else:
-                        print('No RAR file located.')
-                    
-                    
-                    
-                
+                        self.tracker.remove(curr_dir)
