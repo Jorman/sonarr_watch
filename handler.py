@@ -10,9 +10,9 @@ class Handler(FileSystemEventHandler):
         sync_file = False
         rar_file = None
 
-        #if event.event_type == 'deleted':
-        #    print('delete')
-        #    return None
+        if event.event_type == 'deleted':
+            #print('D')
+            return None
         elif event.is_directory is True:
             #print(f"\n\n!!!!!! - {event.event_type} - !!!!!!\n\n")
             if event.event_type == 'created' or event.event_type == 'modified':
