@@ -40,7 +40,7 @@ class Handler(FileSystemEventHandler):
                         rar = rarfile.RarFile(f'/{curr_dir}/{rar_file}')
                         try:
                             log(f'Extracting {rar_file}\n')
-                            rar.extractall(path=curr_dir)
+                            rar.extractall(path=f'/curr_dir/../sonarr-proc/{rar_file}/')
                         except rarfile.Error as e:
                             log(f'An error has occured with the extraction - {e}')
                             return None
