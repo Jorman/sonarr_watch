@@ -29,6 +29,7 @@ class Handler(FileSystemEventHandler):
                 try:
                     for file in os.listdir(curr_dir):
                         if file.endswith('.rar'):
+                            log(f'RAR file found! [{file}]\n')
                             rar_file = file
                         if file.startswith('.syncthing'):
                             log(f'Sync file located in [{curr_dir}]\n')
