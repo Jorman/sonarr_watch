@@ -29,7 +29,7 @@ class Handler(FileSystemEventHandler):
                     if file.endswith('.rar'):
                         rar_file = file
                     if file.startswith('.syncthing'):
-                        log(f'Sync file located in {curr_dir}')
+                        log(f'Sync file located in [{curr_dir}]\n')
                         sync_file = True
                         rar_file = None
                         break
@@ -37,17 +37,20 @@ class Handler(FileSystemEventHandler):
                 if sync_file == False and rar_file is not None:
                     if curr_dir not in self.tracker:
                         self.tracker.append(curr_dir)
+                        log(f'Added [{curr_dir}] to tracker.\n')
                         rar = rarfile.RarFile(f'/{curr_dir}/{rar_file}')
                         try:
-                            log(f'Extracting {rar_file}\n')
+                            log(f'Extracting [{rar_file}]\n')
                             rar.extractall(path=curr_dir)
                         except rarfile.Error as e:
-                            log(f'An error has occured with the extraction - {e}')
+                            log(f'An error has occured with the extraction - {e}\n')
                             return None
                         rar_list = rar.namelist()
-                        log(f'Cleaning up {curr_dir}\n')
+                        log(f'Cleaning up [{curr_dir}]\n')
                         for f in os.listdir(curr_dir):
                             if f not in rar_list:
                                 os.remove(f'{curr_dir}/{f}')
+                                log(f'[{curr_dir}/{f}] deleted.\n')
                         rar_file = None
                         self.tracker.remove(curr_dir)
+                        log(f'Removed [{curr_dir}] from tracker.\n')
