@@ -7,7 +7,7 @@ class Watcher:
     def __init__(self, dir):
         self.watch_directory = dir
         self.observer = Observer()
-        print(self.watch_directory)
+        print(f'Watching [{self.watch_directory}]')
 
     def run(self):
         event_handler = handler.Handler()
