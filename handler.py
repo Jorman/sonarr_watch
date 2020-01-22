@@ -25,15 +25,18 @@ class Handler(FileSystemEventHandler):
         elif event.is_directory is True:
             if event.event_type == 'created' or event.event_type == 'modified':
                 curr_dir = event.src_path
-
-                for file in os.listdir(curr_dir):
-                    if file.endswith('.rar'):
-                        rar_file = file
-                    if file.startswith('.syncthing'):
-                        log(f'Sync file located in [{curr_dir}]\n')
-                        sync_file = True
-                        rar_file = None
-                        break
+                
+                try:
+                    for file in os.listdir(curr_dir):
+                        if file.endswith('.rar'):
+                            rar_file = file
+                        if file.startswith('.syncthing'):
+                            log(f'Sync file located in [{curr_dir}]\n')
+                            sync_file = True
+                            rar_file = None
+                            break
+                except FileNotFoundError as e:
+                    log(f'Error deteched: [{e}\n')
 
                 if sync_file == False and rar_file is not None:
                     if curr_dir not in self.tracker:
