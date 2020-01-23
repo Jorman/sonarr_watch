@@ -7,7 +7,7 @@ import rarfile
 from watchdog.events import FileSystemEventHandler
 
 def log(msg):
-    print(msg)
+    print(f'{msg}\n')
     #sys.stdout.write(msg)
     #sys.stdout.flush()
 
@@ -19,7 +19,7 @@ class Handler(FileSystemEventHandler):
 
     #@staticmethod
     def on_any_event(self, event):
-        log(f'{self.tracker}\n')
+        log(f'{self.tracker}')
         sync_file = False
         rar_file = None
 
@@ -32,33 +32,33 @@ class Handler(FileSystemEventHandler):
                 try:
                     for file in os.listdir(curr_dir):
                         if file.endswith('.rar'):
-                            log(f'RAR file found! [{file}]\n')
+                            log(f'RAR file found! [{file}]')
                             rar_file = file
                         if file.startswith('.syncthing'):
-                            log(f'Sync file located in [{curr_dir}]\n')
+                            log(f'Sync file located in [{curr_dir}]')
                             sync_file = True
                             rar_file = None
                             break
                 except FileNotFoundError as e:
-                    log(f'Error deteched: [{e}\n')
+                    log(f'Error deteched: [{e}')
 
                 if sync_file == False and rar_file is not None:
                     if curr_dir not in self.tracker:
                         self.tracker.append(curr_dir)
-                        log(f'Added [{curr_dir}] to tracker.\n')
+                        log(f'Added [{curr_dir}] to tracker.')
                         rar = rarfile.RarFile(f'/{curr_dir}/{rar_file}')
                         try:
-                            log(f'Extracting [{rar_file}]\n')
+                            log(f'Extracting [{rar_file}]')
                             rar.extractall(path=curr_dir)
                         except rarfile.Error as e:
-                            log(f'An error has occured with the extraction - {e}\n')
+                            log(f'An error has occured with the extraction - {e}')
                             return None
                         rar_list = rar.namelist()
-                        log(f'Cleaning up [{curr_dir}]\n')
+                        log(f'Cleaning up [{curr_dir}]')
                         for f in os.listdir(curr_dir):
                             if f not in rar_list:
                                 os.remove(f'{curr_dir}/{f}')
-                                log(f'[{curr_dir}/{f}] deleted.\n')
+                                log(f'[{curr_dir}/{f}] deleted.')
                         rar_file = None
                         self.tracker.remove(curr_dir)
-                        log(f'Removed [{curr_dir}] from tracker.\n')
+                        log(f'Removed [{curr_dir}] from tracker.')
