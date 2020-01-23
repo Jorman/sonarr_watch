@@ -7,7 +7,7 @@ import rarfile
 from watchdog.events import FileSystemEventHandler
 
 def log(msg):
-    print(msg, flush=True)
+    print(msg)
     #sys.stdout.write(msg)
     #sys.stdout.flush()
 
