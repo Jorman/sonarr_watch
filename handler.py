@@ -7,9 +7,9 @@ import rarfile
 from watchdog.events import FileSystemEventHandler
 
 def log(msg):
-    print(msg)
-    sys.stdout.write(msg)
-    sys.stdout.flush()
+    print(msg, flush=True)
+    #sys.stdout.write(msg)
+    #sys.stdout.flush()
 
 class Handler(FileSystemEventHandler):
     def __init__(self):
@@ -19,6 +19,7 @@ class Handler(FileSystemEventHandler):
 
     #@staticmethod
     def on_any_event(self, event):
+        log(f'{self.tracker}\n')
         sync_file = False
         rar_file = None
 
