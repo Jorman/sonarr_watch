@@ -16,6 +16,14 @@ class Handler(FileSystemEventHandler):
         super().__init__()
         self.tracker = []
     
+    def on_modified(self):
+        print('On Modified called.\n')
+
+    def on_deleted(self):
+        print('On Deleted called.\n')
+
+    def on_created(self):
+        print('On Created called.\n')
 
     #@staticmethod
     def on_any_event(self, event):
