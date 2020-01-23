@@ -27,7 +27,7 @@ class Handler(FileSystemEventHandler):
 
     #@staticmethod
     def on_any_event(self, event):
-        log(f'{self.tracker}')
+        print(f'{self.tracker}')
         sync_file = False
         rar_file = None
 
