@@ -21,6 +21,8 @@ class Watcher:
         try:
             while True:
                 time.sleep(5)
+                print('True')
+            print('False')
         except:
             self.observer.stop()
             print("\nERROR: Stopping watcher.\n")
